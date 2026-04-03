@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Isko Barbers — Groomed to Perfection. Barbershop in Biñan, Laguna."/>
+  <title>Isko Barbers — Groomed to Perfection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <a href="#home" class="nav__logo">ISKO<span> BARBERS</span></a>
+  <ul class="nav__links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#promos">Promos</a></li>
+    <li><a href="#mybooking">My Booking</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="btn-primary nav__cta" onclick="openModal()">Book Now</button>
+  <button class="nav__hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu__close" onclick="closeMenu()">✕</button>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#team" onclick="closeMenu()">Team</a>
+  <a href="#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="#promos" onclick="closeMenu()">Promos</a>
+  <a href="#mybooking" onclick="closeMenu()">My Booking</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <button class="btn-primary" onclick="closeMenu();openModal()">Book Now</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero__bg"></div>
+  <div class="hero__overlay"></div>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__content">
+    <div class="hero__badge">Since 2025 · Biñan, Laguna</div>
+    <h1 class="hero__title">GROOMED<br>TO <span class="gold">PER</span><span class="outline">FECTION</span></h1>
+    <p class="hero__sub">Classic precision meets modern style at Isko Barbers — where every cut is a statement, every shave a ritual.</p>
+    <div class="hero__actions">
+      <button class="btn-primary" onclick="openModal()">Book Appointment</button>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+    <div class="hero__stats">
+      <div><div class="hero__stat-num" id="heroClients">500+</div><div class="hero__stat-label">Happy Clients</div></div>
+      <div><div class="hero__stat-num">4</div><div class="hero__stat-label">Expert Barbers</div></div>
+      <div><div class="hero__stat-num">30%</div><div class="hero__stat-label">Loyalty Discount</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span class="ticker__item">Sharp Cuts <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Clean Fades <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Beard Trims <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Classic Shaves <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Loyalty Rewards <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Kids Cuts <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Open 8AM–5PM <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Senior Cuts <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Sharp Cuts <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Clean Fades <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Beard Trims <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Classic Shaves <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Loyalty Rewards <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Kids Cuts <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Open 8AM–5PM <span class="ticker__dot">✦</span></span>
+    <span class="ticker__item">Senior Cuts <span class="ticker__dot">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about__grid">
+    <div class="about__img-wrap fade-up">
+      <div class="about__img-frame">
+        <img src="images/barber-at-work.jpg" alt="Barber at work" loading="lazy"/>
+      </div>
+      <div class="about__badge">SHARP<br>CUTS<br>SHARP<br>STYLE</div>
+    </div>
+    <div class="about__text fade-up">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">A SYMBOL<br>OF <span class="outline">CRAFT</span></h2>
+      <div class="divider"></div>
+      <p>Our logo is more than just a mark — it is the embodiment of our brand's identity, spirit, and heritage. Every line, curve, and color has been crafted to represent the tradition, precision, and passion that define our business.</p>
+      <p>Located at Biñan, Laguna, Isko Barbers opened in 2025 combining classic techniques with contemporary trends to deliver quality cuts and a welcoming atmosphere.</p>
+      <div class="about__features">
+        <div class="about__feature"><strong>Heritage &amp; Tradition</strong><span>Inspired by classic barbershop imagery</span></div>
+        <div class="about__feature"><strong>Modern Elegance</strong><span>Timeless aesthetics, contemporary design</span></div>
+        <div class="about__feature"><strong>Brand Recognition</strong><span>A lasting impression of trust &amp; excellence</span></div>
+        <div class="about__feature"><strong>Community First</strong><span>A shared neighborhood experience</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services__header">
+    <div>
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">OUR <span class="outline">SERVICES</span></h2>
+      <div class="divider" style="margin-bottom:0"></div>
+    </div>
+    <p>Every service is performed with precision tools and expert hands. Walk in or book ahead.</p>
+  </div>
+  <div class="services__grid fade-up">
+
+    <article class="service-card">
+      <div class="service-card__img">
+        <img src="images/medium-length-cut.jpg" alt="Classic haircut" loading="lazy"/>
+      </div>
+      <div class="service-card__body">
+        <span class="service-card__icon">✂️</span>
+        <h3 class="service-card__name">Classic Modern Haircut</h3>
+        <p class="service-card__desc">Timeless cuts executed with modern precision. Suited for every face shape.</p>
+        <div class="service-card__footer"><div class="service-card__price">₱150</div><div class="service-card__time">⏱ ~30 min</div></div>
+      </div>
+    </article>
+
+    <article class="service-card service-card--featured">
+      <div class="service-card__img">
+        <img src="images/fades-collage.jpg" alt="Fade and taper cut" loading="lazy"/>
+      </div>
+      <div class="service-card__body">
+        <span class="service-card__icon">⭐</span>
+        <h3 class="service-card__name">Fade &amp; Taper Cuts</h3>
+        <p class="service-card__desc">Low fade, mid fade, burst fade — clean transitions that turn heads.</p>
+        <div class="service-card__footer"><div class="service-card__price">₱180</div><div class="service-card__time">⏱ ~45 min</div></div>
+      </div>
+    </article>
+
+    <article class="service-card">
+      <div class="service-card__img">
+        <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80&auto=format&fit=crop" alt="Beard trim" loading="lazy"/>
+      </div>
+      <div class="service-card__body">
+        <span class="service-card__icon">🪒</span>
+        <h3 class="service-card__name">Beard Trim &amp; Shave</h3>
+        <p class="service-card__desc">Hot towel, straight razor, clean lines. The full classic barbershop experience.</p>
+        <div class="service-card__footer"><div class="service-card__price">₱120</div><div class="service-card__time">⏱ ~20 min</div></div>
+      </div>
+    </article>
+
+    <article class="service-card">
+      <div class="service-card__img">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80&auto=format&fit=crop" alt="Hair coloring" loading="lazy"/>
+      </div>
+      <div class="service-card__body">
+        <span class="service-card__icon">🎨</span>
+        <h3 class="service-card__name">Coloring &amp; Highlights</h3>
+        <p class="service-card__desc">Bold color statements or subtle highlights — handled with care.</p>
+        <div class="service-card__footer"><div class="service-card__price">₱350</div><div class="service-card__time">⏱ ~60 min</div></div>
+      </div>
+    </article>
+
+    <article class="service-card">
+      <div class="service-card__img">
+        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80&auto=format&fit=crop" alt="Scalp treatment" loading="lazy"/>
+      </div>
+      <div class="service-card__body">
+        <span class="service-card__icon">💆</span>
+        <h3 class="service-card__name">Scalp Treatment</h3>
+        <p class="service-card__desc">Rejuvenating scalp care promoting healthy growth and relaxation.</p>
+        <div class="service-card__footer"><div class="service-card__price">₱200</div><div class="service-card__time">⏱ ~30 min</div></div>
+      </div>
+    </article>
+
+    <article class="service-card">
+      <div class="service-card__img">
+        <img src="images/kids-haircut.png" alt="Kids haircut" loading="lazy"/>
+      </div>
+      <div class="service-card__body">
+        <span class="service-card__icon">👦</span>
+        <h3 class="service-card__name">Kids &amp; Senior Cuts</h3>
+        <p class="service-card__desc">Patient, gentle service for little ones and respected seniors.</p>
+        <div class="service-card__footer"><div class="service-card__price">₱100</div><div class="service-card__time">⏱ ~25 min</div></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- MEET THE TEAM -->
+<section class="team" id="team">
+  <div class="section-label">The Professionals</div>
+  <h2 class="section-title">MEET OUR <span class="outline">BARBERS</span></h2>
+  <div class="divider"></div>
+  <p class="team__sub">Choose your preferred barber when booking, or let us assign the next available one for you.</p>
+  <div class="team__grid fade-up" id="teamGrid">
+    <div class="team__loading">Loading barbers…</div>
+  </div>
+</section>
+
+<!-- STYLES GALLERY -->
+<section class="styles" id="styles">
+  <div class="section-label">Browse Looks</div>
+  <h2 class="section-title">FIND YOUR <span class="outline">STYLE</span></h2>
+  <div class="divider"></div>
+  <div class="styles__tabs" role="tablist">
+    <button class="styles__tab-btn active" onclick="switchTab(this,'men')">Men's Cuts</button>
+    <button class="styles__tab-btn" onclick="switchTab(this,'kids')">Kids' Cuts</button>
+  </div>
+  <div class="styles__grid--men fade-up" id="tab-men">
+    <div class="style-item"><img src="images/spiky-mid-fade.webp" alt="Spiky mid fade" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Mid Fade + Line Up</span></div></div>
+    <div class="style-item"><img src="images/comb-over-fade.jpg" alt="Comb over fade" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Comb Over Fade</span></div></div>
+    <div class="style-item"><img src="images/short-styles.webp" alt="Short styles" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Short Styles</span></div></div>
+    <div class="style-item"><img src="images/medium-length-cut.jpg" alt="Medium length" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Medium Length</span></div></div>
+    <div class="style-item"><img src="images/classic-styles.jpg" alt="Classic styles" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Classic Styles</span></div></div>
+    <div class="style-item"><img src="images/style-chart.jpg" alt="Style guide" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Style Guide</span></div></div>
+  </div>
+  <div class="styles__grid--kids fade-up" id="tab-kids" style="display:none">
+    <div class="style-item"><img src="images/kids-haircut.png" alt="Kids textured crop" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Textured Crop</span></div></div>
+    <div class="style-item"><img src="images/kids-spiky-fade.jpg" alt="Kids spiky fade" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Spiky Fade</span></div></div>
+    <div class="style-item"><img src="images/kids-classic.jpg" alt="Kids classic" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Classic Side Part</span></div></div>
+    <div class="style-item"><img src="images/kids-style-guide.jpg" alt="Kids style guide" loading="lazy"/><div class="style-item__overlay"><span class="style-item__name">Kids Style Guide</span></div></div>
+  </div>
+</section>
+
+<!-- HAPPY CUSTOMERS GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-label">Real Results</div>
+  <h2 class="section-title">HAPPY <span class="outline">CUSTOMERS</span></h2>
+  <div class="divider"></div>
+  <p class="gallery__sub">Real clients, real transformations. See the results for yourself.</p>
+  <div class="gallery__grid fade-up">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&auto=format&fit=crop" alt="Happy customer 1" loading="lazy"/>
+      <div class="gallery-item__overlay">
+        <span class="gallery-item__smile">😄</span>
+        <span class="gallery-item__label">Fade + Line Up</span>
+        <div class="gallery-item__stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="gallery-item gallery-item--tall">
+      <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80&auto=format&fit=crop" alt="Happy customer 2" loading="lazy"/>
+      <div class="gallery-item__overlay">
+        <span class="gallery-item__smile">😁</span>
+        <span class="gallery-item__label">Classic Cut</span>
+        <div class="gallery-item__stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&auto=format&fit=crop" alt="Happy customer 3" loading="lazy"/>
+      <div class="gallery-item__overlay">
+        <span class="gallery-item__smile">🤩</span>
+        <span class="gallery-item__label">Beard Trim</span>
+        <div class="gallery-item__stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80&auto=format&fit=crop" alt="Happy customer 4" loading="lazy"/>
+      <div class="gallery-item__overlay">
+        <span class="gallery-item__smile">😊</span>
+        <span class="gallery-item__label">Comb Over</span>
+        <div class="gallery-item__stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="gallery-item gallery-item--tall">
+      <img src="https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?w=400&q=80&auto=format&fit=crop" alt="Happy customer 5" loading="lazy"/>
+      <div class="gallery-item__overlay">
+        <span class="gallery-item__smile">😎</span>
+        <span class="gallery-item__label">Skin Fade</span>
+        <div class="gallery-item__stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1541533848490-bc8115cd6522?w=400&q=80&auto=format&fit=crop" alt="Happy customer 6" loading="lazy"/>
+      <div class="gallery-item__overlay">
+        <span class="gallery-item__smile">🙂</span>
+        <span class="gallery-item__label">Kids Cut</span>
+        <div class="gallery-item__stars">★★★★★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-label">What Clients Say</div>
+  <h2 class="section-title">REAL <span class="outline">REVIEWS</span></h2>
+  <div class="divider"></div>
+  <div class="testimonials__grid fade-up">
+    <div class="testimonial-card">
+      <div class="testimonial-card__stars">★★★★★</div>
+      <p class="testimonial-card__text">"Best fade I've ever had in Biñan! Isko Reyes really knows his stuff. Super clean line-up and very affordable. Will definitely be back every two weeks!"</p>
+      <div class="testimonial-card__author">
+        <div class="testimonial-card__avatar" style="background:#f5c518;color:#000">JD</div>
+        <div><strong>Juan dela Cruz</strong><span>Regular Customer</span></div>
+      </div>
+    </div>
+    <div class="testimonial-card testimonial-card--featured">
+      <div class="testimonial-card__stars">★★★★★</div>
+      <p class="testimonial-card__text">"Brought my son here for the first time and he loved it! Renz was so patient with him. The kids cut looks great — natural and clean. Sulit talaga!"</p>
+      <div class="testimonial-card__author">
+        <div class="testimonial-card__avatar" style="background:#2e7d32">MS</div>
+        <div><strong>Maria Santos</strong><span>Parent</span></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-card__stars">★★★★★</div>
+      <p class="testimonial-card__text">"Ang ganda ng hot towel shave ni Marco! Super smooth at maayos ang linya ng balbas ko. Legit barbershop experience — hindi mahal, sulit na sulit!"</p>
+      <div class="testimonial-card__author">
+        <div class="testimonial-card__avatar" style="background:#1565c0">AR</div>
+        <div><strong>Angelo Reyes</strong><span>First-time Client</span></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-card__stars">★★★★☆</div>
+      <p class="testimonial-card__text">"Online booking is so convenient! I booked the night before, came in the next morning — no waiting, straight to the chair. Great service from Bryan!"</p>
+      <div class="testimonial-card__author">
+        <div class="testimonial-card__avatar" style="background:#6a1b9a">RV</div>
+        <div><strong>Rico Villanueva</strong><span>Online Booking Customer</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section class="history" id="history">
+  <div class="history__grid">
+    <div class="fade-up">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">THE ART OF<br><span class="outline">BARBERING</span></h2>
+      <div class="divider"></div>
+      <div class="history__img">
+        <img src="images/barber-at-work.jpg" alt="Master barber" loading="lazy"/>
+      </div>
+      <div class="history__block">
+        <div class="history__year">2025</div>
+        <p>Barbering has been an essential craft for centuries. Isko Barbers opened in 2025, combining classic techniques with contemporary trends to deliver quality cuts and a welcoming atmosphere.</p>
+        <blockquote>"More than just haircuts — a space where style meets tradition."</blockquote>
+      </div>
+    </div>
+    <div class="fade-up">
+      <div class="section-label" style="margin-bottom:32px">A Legacy of Style</div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><strong>2025 — Founded</strong><p>Opens at Biñan, Laguna with a vision to honor traditional barbering.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><strong>Logo &amp; Brand Identity</strong><p>The iconic Isko logo unveiled — symbolizing craft and community.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><strong>Loyalty Program Launched</strong><p>Smart tiered loyalty: 1% → 20% → 30% off based on visits.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><strong>Online Booking</strong><p>Launched our appointment system — book anytime, anywhere.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><strong>The Future</strong><p>Expanding services and building a community space for style.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LOYALTY PROMOS (UPDATED) -->
+<section class="freebies" id="promos">
+  <div class="section-label">Rewards &amp; Promos</div>
+  <h2 class="section-title">LOYALTY <span class="outline">REWARDS</span></h2>
+  <div class="divider"></div>
+  <p class="team__sub">The more you visit, the more you save. Real rewards that build real loyalty.</p>
+
+  <div class="loyalty__grid fade-up">
+    <div class="loyalty-card loyalty-card--1">
+      <div class="loyalty-card__visits">1 Visit</div>
+      <div class="loyalty-card__discount">1% OFF</div>
+      <div class="loyalty-card__title">Welcome Tier 🎉</div>
+      <p class="loyalty-card__desc">Every new customer earns an instant 1% discount after their first completed visit.</p>
+      <div class="loyalty-card__perks">
+        <span>✔ Mini Hair Gel</span>
+        <span>✔ Free Comb</span>
+        <span>✔ 1% Off Next Visit</span>
+      </div>
+    </div>
+    <div class="loyalty-card loyalty-card--2">
+      <div class="loyalty-card__visits">3 Visits</div>
+      <div class="loyalty-card__discount">20% OFF</div>
+      <div class="loyalty-card__title">Regular Tier ⭐</div>
+      <p class="loyalty-card__desc">Complete 3 visits and unlock a 20% discount — a real reward for your loyalty.</p>
+      <div class="loyalty-card__perks">
+        <span>✔ 20% Off Any Service</span>
+        <span>✔ Priority Booking</span>
+        <span>✔ Free Comb &amp; Gel</span>
+      </div>
+    </div>
+    <div class="loyalty-card loyalty-card--3">
+      <div class="loyalty-card__visits">5 Visits</div>
+      <div class="loyalty-card__discount">30% OFF</div>
+      <div class="loyalty-card__title">Loyal Customer 🏆</div>
+      <p class="loyalty-card__desc">Our most dedicated clients earn 30% off all services — the ultimate loyalty reward.</p>
+      <div class="loyalty-card__perks">
+        <span>✔ 30% Off All Services</span>
+        <span>✔ VIP Booking Slot</span>
+        <span>✔ Exclusive Freebies</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="loyalty__also fade-up">
+    <h3 class="section-title" style="font-size:1.8rem">ALSO INCLUDED</h3>
+    <div class="freebies__grid" style="margin-top:32px">
+      <div class="freebie-card"><span class="freebie-card__icon">💈</span><h3 class="freebie-card__title">Mini Hair Gel</h3><p class="freebie-card__desc">Free mini styling gel with every haircut — keep the look fresh.</p></div>
+      <div class="freebie-card"><span class="freebie-card__icon">🪮</span><h3 class="freebie-card__title">Free Comb</h3><p class="freebie-card__desc">Every customer gets a professional comb — a small token of our appreciation.</p></div>
+      <div class="freebie-card"><span class="freebie-card__icon">👴</span><h3 class="freebie-card__title">Senior &amp; Kids Discount</h3><p class="freebie-card__desc">Special pricing for seniors and kids — because family comes first.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MY BOOKING LOOKUP -->
+<section class="lookup" id="mybooking">
+  <div class="lookup__inner">
+    <div class="section-label">Track Your Visit</div>
+    <h2 class="section-title">CHECK MY <span class="outline">BOOKING</span></h2>
+    <div class="divider"></div>
+    <p class="lookup__sub">Enter your phone number to view your appointment details, status, and loyalty tier.</p>
+    <div class="lookup__form">
+      <div class="form-group lookup__input-wrap">
+        <label for="lookupPhone">📞 Phone Number</label>
+        <input type="tel" id="lookupPhone" placeholder="e.g. 09171234567" autocomplete="tel"/>
+      </div>
+      <button class="btn-primary lookup__btn" onclick="lookupBooking()">Check Booking →</button>
+    </div>
+    <div class="lookup__error" id="lookupError" role="alert"></div>
+    <div class="lookup__results" id="lookupResults"></div>
+  </div>
+</section>
+
+<!-- CONTACT & BOOKING FORM -->
+<section class="contact" id="contact">
+  <div class="contact__grid">
+    <div class="fade-up">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">VISIT US<br><span class="outline">TODAY</span></h2>
+      <div class="divider"></div>
+      <div class="contact__item"><div class="contact__icon">📍</div><div><strong>Location</strong><p>Brgy. Malamig, Biñan, Laguna</p></div></div>
+      <div class="contact__item"><div class="contact__icon">📞</div><div><strong>Phone</strong><p><a href="tel:+1234567890">+123-456-7890</a></p></div></div>
+      <div class="contact__item"><div class="contact__icon">✉️</div><div><strong>Email</strong><p><a href="mailto:iskobarbers@gmail.com">iskobarbers@gmail.com</a></p></div></div>
+      <div class="contact__item"><div class="contact__icon">📘</div><div><strong>Facebook</strong><p>Isko Barbers</p></div></div>
+      <table class="hours-table">
+        <tbody>
+          <tr><td>Monday – Friday</td><td>8:00 AM – 5:00 PM</td></tr>
+          <tr><td>Saturday</td><td>8:00 AM – 5:00 PM</td></tr>
+          <tr><td>Sunday</td><td>8:00 AM – 3:00 PM</td></tr>
+        </tbody>
+      </table>
+      <!-- Google Map -->
+      <div class="map-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7726.734516398805!2d121.07683!3d14.32992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd679e08012e3b%3A0x6e0e1cedb6c21ad3!2sBi%C3%B1an%2C%20Laguna!5e0!3m2!1sen!2sph!4v1699000000000"
+          width="100%" height="220" style="border:0;border-radius:4px;margin-top:24px" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" title="Isko Barbers location">
+        </iframe>
+      </div>
+    </div>
+
+    <div class="fade-up">
+      <div class="section-label">Book a Seat</div>
+      <h2 class="section-title" style="font-size:2.5rem">APPOINTMENT<br>FORM</h2>
+      <div class="divider"></div>
+      <div id="pageFormArea">
+        <div class="form__error" id="pageError" role="alert"></div>
+        <div class="form-row">
+          <div class="form-group"><label for="fname">First Name *</label><input type="text" id="fname" placeholder="Juan" autocomplete="given-name"/></div>
+          <div class="form-group"><label for="lname">Last Name *</label><input type="text" id="lname" placeholder="dela Cruz" autocomplete="family-name"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label for="phone">Phone *</label><input type="tel" id="phone" placeholder="+63 917 000 0000" autocomplete="tel"/></div>
+          <div class="form-group"><label for="pemail">Email <span class="form-optional">(optional)</span></label><input type="email" id="pemail" placeholder="juan@email.com"/></div>
+        </div>
+        <div class="form-group"><label for="service">Service *</label>
+          <select id="service">
+            <option value="">Select a service…</option>
+            <option>Classic Modern Haircut – ₱150</option>
+            <option>Fade &amp; Taper Cut – ₱180</option>
+            <option>Beard Trim &amp; Shave – ₱120</option>
+            <option>Coloring &amp; Highlights – ₱350</option>
+            <option>Scalp Treatment – ₱200</option>
+            <option>Kids &amp; Senior Cut – ₱100</option>
+          </select>
+        </div>
+        <div class="form-group"><label for="barber">Preferred Barber</label>
+          <select id="barber"><option value="any">Any Available Barber</option></select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="apptDate">Preferred Date *</label>
+            <input type="date" id="apptDate" autocomplete="off"/>
+          </div>
+          <div class="form-group"><label for="apptTime">Preferred Time *</label>
+            <select id="apptTime">
+              <option value="8:00 AM">8:00 AM</option><option value="9:00 AM">9:00 AM</option>
+              <option value="10:00 AM">10:00 AM</option><option value="11:00 AM">11:00 AM</option>
+              <option value="1:00 PM">1:00 PM</option><option value="2:00 PM">2:00 PM</option>
+              <option value="3:00 PM">3:00 PM</option><option value="4:00 PM">4:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label for="pnotes">Special Requests <span class="form-optional">(optional)</span></label>
+          <textarea id="pnotes" placeholder="e.g. I want a low fade with line up on the sides, keep top longer…" rows="2"></textarea>
+        </div>
+        <button class="btn-primary form__submit" id="pageSubmitBtn" onclick="submitForm()">Confirm Booking →</button>
+      </div>
+      <div class="form__success" id="successMsg">
+        <div class="form__success__icon">✅</div>
+        <h3>Booking Confirmed!</h3>
+        <p id="pageSuccessDetails">We'll see you soon at Isko Barbers!</p>
+        <button class="btn-outline" style="margin-top:20px" onclick="resetPageForm()">Book Another Appointment</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer__top">
+    <div class="footer__brand">
+      <h2>ISKO BARBERS</h2>
+      <p>Since 2025 · Groomed to Perfection. A community barbershop honoring tradition while embracing modern style.</p>
+      <div class="footer__social">
+        <a href="#" class="footer__social-link">f</a>
+        <a href="#" class="footer__social-link">📷</a>
+        <a href="#" class="footer__social-link">♪</a>
+      </div>
+    </div>
+    <div class="footer__col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Classic Haircuts</a></li>
+        <li><a href="#services">Fade &amp; Taper</a></li>
+        <li><a href="#services">Beard Trim</a></li>
+        <li><a href="#services">Coloring</a></li>
+        <li><a href="#services">Scalp Treatment</a></li>
+        <li><a href="#services">Kids &amp; Seniors</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#team">Our Team</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#promos">Loyalty Rewards</a></li>
+        <li><a href="#mybooking">My Booking</a></li>
+        <li><a href="/admin.html" style="color:var(--color-gold)">Admin Panel →</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>© 2025 Isko Barbers · Biñan, Laguna · All Rights Reserved</p>
+    <p class="gold">Sharp Cuts · Sharp Style ✦</p>
+  </div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal__close" onclick="closeModal()">✕</button>
+    <h3 class="modal__title">BOOK YOUR SEAT</h3>
+    <div id="modalFormArea">
+      <div class="form__error" id="modalError" role="alert"></div>
+      <div class="form-row">
+        <div class="form-group"><label for="mfname">First Name *</label><input type="text" id="mfname" placeholder="Juan"/></div>
+        <div class="form-group"><label for="mlname">Last Name *</label><input type="text" id="mlname" placeholder="dela Cruz"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label for="mphone">Phone *</label><input type="tel" id="mphone" placeholder="+63 917 000 0000"/></div>
+        <div class="form-group"><label for="memail">Email <span class="form-optional">(opt.)</span></label><input type="email" id="memail" placeholder="juan@email.com"/></div>
+      </div>
+      <div class="form-group"><label for="mservice">Service *</label>
+        <select id="mservice">
+          <option value="">Select a service…</option>
+          <option>Classic Modern Haircut – ₱150</option>
+          <option>Fade &amp; Taper Cut – ₱180</option>
+          <option>Beard Trim &amp; Shave – ₱120</option>
+          <option>Coloring &amp; Highlights – ₱350</option>
+          <option>Scalp Treatment – ₱200</option>
+          <option>Kids &amp; Senior Cut – ₱100</option>
+        </select>
+      </div>
+      <div class="form-group"><label for="mbarber">Preferred Barber</label>
+        <select id="mbarber"><option value="any">Any Available Barber</option></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label for="mapptDate">Date *</label><input type="date" id="mapptDate"/></div>
+        <div class="form-group"><label for="mapptTime">Time *</label>
+          <select id="mapptTime">
+            <option value="8:00 AM">8:00 AM</option><option value="9:00 AM">9:00 AM</option>
+            <option value="10:00 AM">10:00 AM</option><option value="11:00 AM">11:00 AM</option>
+            <option value="1:00 PM">1:00 PM</option><option value="2:00 PM">2:00 PM</option>
+            <option value="3:00 PM">3:00 PM</option><option value="4:00 PM">4:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label for="mnotes">Special Requests <span class="form-optional">(opt.)</span></label>
+        <textarea id="mnotes" placeholder="Any special requests?" rows="2"></textarea>
+      </div>
+      <button class="btn-primary form__submit" id="modalSubmitBtn" onclick="submitModal()">Confirm Booking →</button>
+    </div>
+    <div class="form__success" id="modalSuccess">
+      <div class="form__success__icon">✅</div>
+      <h3>Booking Confirmed!</h3>
+      <p id="modalSuccessDetails">We'll see you soon at Isko Barbers, Biñan!</p>
+      <button class="btn-outline" style="margin-top:20px" onclick="resetModalForm()">Book Another</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

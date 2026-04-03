@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Isko Barbers</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --black:#0a0a0a;--gold:#f5c518;--gold-dark:#c9a10d;
+  --white:#f5f5f0;--gray:#1c1c1c;--gray-mid:#2e2e2e;
+  --text-muted:#9a9a8a;--green:#4caf82;--red:#e05252;--blue:#5294e0;
+  --sidebar-w:240px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Lato',sans-serif;display:flex;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--gray);display:flex;flex-direction:column;border-right:1px solid rgba(245,197,24,.1);position:sticky;top:0;height:100vh;overflow-y:auto;z-index:100;transition:transform .3s;}
+.sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.06);}
+.sidebar-logo h1{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--gold)}
+.sidebar-logo p{font-family:'Oswald',sans-serif;font-size:.6rem;letter-spacing:3px;color:var(--text-muted);margin-top:2px}
+.admin-badge{display:inline-block;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);color:var(--gold);font-family:'Oswald',sans-serif;font-size:.6rem;letter-spacing:2px;padding:3px 10px;margin-top:8px;text-transform:uppercase}
+.nav-section{padding:18px 16px 6px;font-family:'Oswald',sans-serif;font-size:.6rem;letter-spacing:4px;color:var(--text-muted);text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 20px;color:var(--text-muted);font-family:'Oswald',sans-serif;font-size:.82rem;letter-spacing:1px;text-decoration:none;border-left:2px solid transparent;transition:all .2s;cursor:pointer}
+.nav-item:hover{color:var(--white);background:rgba(255,255,255,.04)}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(245,197,24,.06)}
+.nav-item .icon{font-size:.95rem;min-width:18px;text-align:center}
+.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid rgba(255,255,255,.06);}
+.admin-user{font-size:.72rem;color:var(--text-muted);margin-bottom:10px}
+.admin-user strong{display:block;color:var(--white);font-size:.8rem;margin-top:2px}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow-x:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--gray);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:50;gap:12px;flex-wrap:wrap}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;color:var(--gold)}
+.topbar-actions{display:flex;gap:8px;flex-wrap:wrap}
+/* Mobile topbar hamburger */
+.topbar-hamburger{display:none;background:none;border:none;color:var(--gold);font-size:1.4rem;cursor:pointer;padding:4px 8px}
+
+.content{padding:24px;flex:1}
+
+/* VIEWS */
+.view{display:none}.view.active{display:block}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--gray);padding:20px;border:1px solid rgba(255,255,255,.06);border-top:3px solid var(--gold)}
+.stat-card.green{border-top-color:var(--green)}.stat-card.red{border-top-color:var(--red)}.stat-card.blue{border-top-color:var(--blue)}.stat-card.purple{border-top-color:#9c27b0}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--gold);line-height:1}
+.stat-card.green .stat-num{color:var(--green)}.stat-card.red .stat-num{color:var(--red)}.stat-card.blue .stat-num{color:var(--blue)}.stat-card.purple .stat-num{color:#9c27b0}
+.stat-lbl{font-family:'Oswald',sans-serif;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+
+/* INCOME CARDS */
+.income-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.income-card{background:linear-gradient(135deg,var(--gray),rgba(245,197,24,.06));border:1px solid rgba(245,197,24,.2);padding:20px}
+.income-card__label{font-family:'Oswald',sans-serif;font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.income-card__amount{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--gold);line-height:1}
+.income-card__sub{font-size:.72rem;color:var(--text-muted);margin-top:4px}
+
+/* CHARTS */
+.charts-row{display:grid;gap:16px;margin-bottom:24px}
+.chart-card{background:var(--gray);border:1px solid rgba(255,255,255,.06);padding:20px}
+.chart-card h3{font-family:'Oswald',sans-serif;font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.chart-wrap{height:200px;position:relative}
+
+/* TABLES */
+.table-card{background:var(--gray);border:1px solid rgba(255,255,255,.06);overflow:hidden;margin-bottom:20px}
+.table-toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;gap:10px}
+.table-toolbar h3{font-family:'Oswald',sans-serif;font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead tr{background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
+th{padding:10px 14px;text-align:left;font-family:'Oswald',sans-serif;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--gold)}
+td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+tr:last-child td{border:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.td-id{color:var(--text-muted);font-size:.78rem}
+.td-name{font-weight:600}
+.empty-row td{text-align:center;color:var(--text-muted);padding:32px;font-size:.85rem}
+
+/* STATUS BADGES */
+.status-badge{font-family:'Oswald',sans-serif;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;display:inline-block}
+.status-confirmed{background:rgba(245,197,24,.12);color:var(--gold)}
+.status-completed{background:rgba(76,175,130,.15);color:var(--green)}
+.status-cancelled{background:rgba(224,82,82,.15);color:var(--red)}
+.status-no-show{background:rgba(154,154,138,.12);color:var(--text-muted)}
+.status-active{background:rgba(76,175,130,.15);color:var(--green)}
+.status-inactive{background:rgba(154,154,138,.12);color:var(--text-muted)}
+
+/* TAGS */
+.tag{font-family:'Oswald',sans-serif;font-size:.68rem;letter-spacing:1px;padding:2px 8px;background:rgba(255,255,255,.06);white-space:nowrap}
+.tag-time{color:var(--blue);background:rgba(82,148,224,.1)}
+.tag-service{color:var(--text-muted)}
+
+/* BUTTONS */
+.btn-sm{font-family:'Oswald',sans-serif;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;cursor:pointer;border:none;text-decoration:none;white-space:nowrap}
+.btn-sm-gold{background:var(--gold);color:var(--black)}
+.btn-sm-gold:hover{background:var(--gold-dark)}
+.btn-sm-outline{background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--white)}
+.btn-sm-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm-red{background:rgba(224,82,82,.15);border:1px solid rgba(224,82,82,.3);color:var(--red)}
+.btn-sm-red:hover{background:var(--red);color:#fff}
+
+/* ACTIONS CELL */
+.actions-cell{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+/* FILTERS */
+.search-input,.date-input{background:var(--gray-mid);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:7px 12px;font-family:'Lato',sans-serif;font-size:.82rem;font-size:max(.82rem,16px)}
+.search-input:focus,.date-input:focus{outline:none;border-color:var(--gold)}
+select.date-input option{background:var(--gray-mid)}
+
+/* SETTINGS */
+.settings-section{background:var(--gray);border:1px solid rgba(255,255,255,.06);padding:24px;margin-bottom:20px}
+.settings-section h3{font-family:'Oswald',sans-serif;font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px}
+.settings-section label{display:block;font-size:.78rem;color:var(--text-muted);margin:12px 0 5px;font-family:'Oswald',sans-serif;letter-spacing:1px}
+.settings-section input[type=password]{width:100%;max-width:360px;background:var(--gray-mid);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:9px 12px;font-family:'Lato',sans-serif;font-size:.85rem;font-size:max(.85rem,16px)}
+.settings-section input:focus{outline:none;border-color:var(--gold)}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:16px;flex-wrap:wrap}
+.setting-label{font-size:.85rem;font-weight:600}
+.setting-sub{font-size:.78rem;color:var(--text-muted);margin-top:2px}
+
+/* MODALS */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-backdrop.open{display:flex}
+.modal-box{background:var(--gray);border:1px solid rgba(245,197,24,.2);padding:28px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-box h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--gold);margin-bottom:20px}
+.modal-box label{display:block;font-size:.75rem;color:var(--text-muted);margin:12px 0 5px;font-family:'Oswald',sans-serif;letter-spacing:1px}
+.modal-box input,.modal-box textarea{width:100%;background:var(--gray-mid);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:9px 12px;font-family:'Lato',sans-serif;font-size:.85rem;font-size:max(.85rem,16px)}
+.modal-box input:focus,.modal-box textarea:focus{outline:none;border-color:var(--gold)}
+.modal-box textarea{min-height:70px;resize:vertical}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.1rem;cursor:pointer}
+.modal-close:hover{color:var(--white)}
+
+/* RECENT BOOKINGS (dashboard) */
+.recent-booking-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.82rem;gap:8px;flex-wrap:wrap}
+.recent-booking-row:last-child{border:none}
+.recent-booking-name{font-weight:600;min-width:120px}
+.recent-booking-service{color:var(--text-muted);font-size:.78rem;flex:1}
+.recent-booking-date{color:var(--text-muted);font-size:.75rem;white-space:nowrap}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--gray);border:1px solid rgba(245,197,24,.3);color:var(--gold);font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:2px;padding:12px 20px;z-index:9998;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.error{border-color:rgba(224,82,82,.5);color:var(--red)}
+
+/* RESPONSIVE ADMIN */
+@media (max-width:1200px){
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
+  .income-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:900px){
+  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.5)}
+  .topbar-hamburger{display:block}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .income-grid{grid-template-columns:repeat(2,1fr)}
+  .charts-row{grid-template-columns:1fr!important}
+  .content{padding:16px}
+  .table-toolbar{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:600px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .income-grid{grid-template-columns:1fr 1fr}
+  .topbar{padding:10px 16px}
+  .topbar-title{font-size:1.3rem}
+  .actions-cell{gap:4px}
+  .btn-sm{font-size:.65rem;padding:5px 10px}
+}
+@media (max-width:400px){
+  .stats-grid{grid-template-columns:1fr}
+  .income-grid{grid-template-columns:1fr}
+}
+
+/* Sidebar overlay */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
+.sidebar-overlay.open{display:block}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1>ISKO BARBERS</h1>
+    <p>Admin Panel v5.0</p>
+    <div class="admin-badge" id="sidebarUser">Loading…</div>
+  </div>
+
+  <div class="nav-section">Menu</div>
+  <a class="nav-item active" onclick="showView('dashboard')" href="#">
+    <span class="icon">📊</span> Dashboard
+  </a>
+  <a class="nav-item" onclick="showView('bookings')" href="#">
+    <span class="icon">📋</span> All Bookings
+  </a>
+  <a class="nav-item" onclick="showView('barbers')" href="#">
+    <span class="icon">✂️</span> Barbers
+  </a>
+  <a class="nav-item" onclick="showView('income')" href="#">
+    <span class="icon">💰</span> Income Report
+  </a>
+  <a class="nav-item" onclick="showView('analytics')" href="#">
+    <span class="icon">📈</span> Analytics
+  </a>
+  <div class="nav-section">System</div>
+  <a class="nav-item" onclick="showView('settings')" href="#">
+    <span class="icon">⚙️</span> Settings
+  </a>
+  <a class="nav-item" href="/api/export/csv" target="_blank">
+    <span class="icon">⬇️</span> Export CSV
+  </a>
+  <a class="nav-item" href="/" target="_blank">
+    <span class="icon">🌐</span> View Website
+  </a>
+
+  <div class="sidebar-footer">
+    <div class="admin-user">Logged in as<strong id="adminUserLabel">—</strong></div>
+    <button class="btn-sm btn-sm-outline" onclick="doLogout()">Sign Out</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="topbar-hamburger" onclick="openSidebar()">☰</button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    </div>
+    <div class="topbar-actions">
+      <span id="topbarDate" style="font-size:.72rem;color:var(--text-muted);font-family:'Oswald',sans-serif;letter-spacing:1px"></span>
+      <button class="btn-sm btn-sm-gold" onclick="refreshAll()">↻ Refresh</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="view active" id="view-dashboard">
+      <!-- Booking stats -->
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="s-total">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card green"><div class="stat-num" id="s-upcoming">—</div><div class="stat-lbl">Upcoming</div></div>
+        <div class="stat-card blue"><div class="stat-num" id="s-today">—</div><div class="stat-lbl">Today</div></div>
+        <div class="stat-card purple"><div class="stat-num" id="s-week">—</div><div class="stat-lbl">This Week</div></div>
+        <div class="stat-card red"><div class="stat-num" id="s-cancelled">—</div><div class="stat-lbl">Cancelled</div></div>
+      </div>
+
+      <!-- Income overview (admin only) -->
+      <div class="income-grid" id="dashIncomeGrid">
+        <div class="income-card"><div class="income-card__label">Today's Income</div><div class="income-card__amount" id="d-inc-today">₱—</div><div class="income-card__sub">Completed bookings</div></div>
+        <div class="income-card"><div class="income-card__label">This Week</div><div class="income-card__amount" id="d-inc-week">₱—</div><div class="income-card__sub">Mon – today</div></div>
+        <div class="income-card"><div class="income-card__label">This Month</div><div class="income-card__amount" id="d-inc-month">₱—</div><div class="income-card__sub">Current month</div></div>
+        <div class="income-card"><div class="income-card__label">This Year</div><div class="income-card__amount" id="d-inc-year">₱—</div><div class="income-card__sub">All completed</div></div>
+      </div>
+
+      <!-- Charts row -->
+      <div class="charts-row" style="grid-template-columns:2fr 1fr">
+        <div class="chart-card">
+          <h3>Bookings — Last 14 Days</h3>
+          <div class="chart-wrap"><canvas id="chartDaily"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Services Split</h3>
+          <div class="chart-wrap"><canvas id="chartServices"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Today + Recent -->
+      <div class="charts-row" style="grid-template-columns:1fr 1fr">
+        <div class="table-card">
+          <div class="table-toolbar"><h3>📅 Today's Bookings</h3></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Name</th><th>Service</th><th>Time</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="todayBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="table-toolbar"><h3>🕒 Recent Bookings</h3></div>
+          <div class="table-wrap" style="padding:0 20px">
+            <div id="recentBookingsList" style="padding:8px 0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BOOKINGS ══ -->
+    <div class="view" id="view-bookings">
+      <div class="table-card">
+        <div class="table-toolbar">
+          <h3>All Bookings</h3>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <input class="search-input" id="searchInput" placeholder="Search name / phone…" oninput="applyFilters()" style="width:180px"/>
+            <input class="date-input" id="dateFilter" type="date" onchange="applyFilters()"/>
+            <select class="date-input" id="statusFilter" onchange="applyFilters()">
+              <option value="">All Statuses</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="no-show">No-Show</option>
+            </select>
+            <button class="btn-sm btn-sm-outline" onclick="clearFilters()">Clear</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th onclick="sortBy('id')"># ↕</th>
+                <th onclick="sortBy('first_name')">Name ↕</th>
+                <th>Phone</th>
+                <th>Service</th>
+                <th>Barber</th>
+                <th onclick="sortBy('date')">Date ↕</th>
+                <th>Time</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="allBookingsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BARBERS ══ -->
+    <div class="view" id="view-barbers">
+      <div class="table-card">
+        <div class="table-toolbar">
+          <h3>✂️ Barber Roster</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="barberCount" style="font-size:.75rem;color:var(--text-muted)"></span>
+            <button class="btn-sm btn-sm-gold" onclick="openBarberModal()">+ Add Barber</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Name</th><th>Specialty</th><th>Experience</th><th>Bio</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="barbersBody"><tr class="empty-row"><td colspan="7">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ INCOME REPORT ══ -->
+    <div class="view" id="view-income">
+      <div class="income-grid" style="margin-bottom:24px">
+        <div class="income-card"><div class="income-card__label">Today's Income</div><div class="income-card__amount" id="i-today">₱—</div><div class="income-card__sub">Completed today</div></div>
+        <div class="income-card"><div class="income-card__label">Weekly Income</div><div class="income-card__amount" id="i-week">₱—</div><div class="income-card__sub">This week (Mon–Sun)</div></div>
+        <div class="income-card"><div class="income-card__label">Monthly Income</div><div class="income-card__amount" id="i-month">₱—</div><div class="income-card__sub">Current month</div></div>
+        <div class="income-card"><div class="income-card__label">Yearly Income</div><div class="income-card__amount" id="i-year">₱—</div><div class="income-card__sub">This year total</div></div>
+      </div>
+      <div class="charts-row" style="grid-template-columns:2fr 1fr">
+        <div class="chart-card">
+          <h3>Monthly Revenue (Last 6 Months)</h3>
+          <div class="chart-wrap"><canvas id="chartMonthlyIncome"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Revenue by Service</h3>
+          <div class="chart-wrap"><canvas id="chartIncomeByService"></canvas></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar"><h3>💡 Income Breakdown — Completed Bookings</h3></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Service</th><th>Count</th><th>Per Item</th><th>Total Revenue</th></tr></thead>
+            <tbody id="incomeBreakdownBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ANALYTICS ══ -->
+    <div class="view" id="view-analytics">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="a-total">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card green"><div class="stat-num" id="a-upcoming">—</div><div class="stat-lbl">Upcoming</div></div>
+        <div class="stat-card red"><div class="stat-num" id="a-cancelled">—</div><div class="stat-lbl">Cancelled</div></div>
+        <div class="stat-card blue"><div class="stat-num" id="a-today">—</div><div class="stat-lbl">Today</div></div>
+        <div class="stat-card purple"><div class="stat-num" id="a-week">—</div><div class="stat-lbl">This Week</div></div>
+      </div>
+      <div class="charts-row" style="grid-template-columns:1fr 1fr">
+        <div class="chart-card"><h3>Daily Bookings (14 days)</h3><div class="chart-wrap"><canvas id="chartDaily2"></canvas></div></div>
+        <div class="chart-card"><h3>Peak Hours</h3><div class="chart-wrap"><canvas id="chartHours"></canvas></div></div>
+      </div>
+      <div class="charts-row" style="grid-template-columns:1fr 1fr">
+        <div class="chart-card"><h3>Services Breakdown</h3><div class="chart-wrap" style="height:260px"><canvas id="chartServices2"></canvas></div></div>
+        <div class="chart-card">
+          <h3>Top Barbers by Bookings</h3>
+          <div class="chart-wrap"><canvas id="chartBarbers"></canvas></div>
+          <div id="topBarbersList" style="font-size:.82rem;margin-top:12px;line-height:2"></div>
+        </div>
+      </div>
+      <div class="charts-row" style="grid-template-columns:1fr">
+        <div class="chart-card">
+          <h3>Service Counts</h3>
+          <div id="servicesList" style="font-size:.85rem;line-height:2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div class="view" id="view-settings">
+      <div class="settings-section">
+        <h3>Change Admin Password</h3>
+        <label>Current Password</label><input type="password" id="curPw" placeholder="Current password"/>
+        <label>New Password (min 8 chars)</label><input type="password" id="newPw" placeholder="New password"/>
+        <label>Confirm New Password</label><input type="password" id="confPw" placeholder="Confirm new password"/>
+        <div style="margin-top:14px"><button class="btn-sm btn-sm-gold" onclick="changePassword()">Update Password</button></div>
+      </div>
+      <div class="settings-section">
+        <h3>System</h3>
+        <div class="setting-row"><div><div class="setting-label">Export All Bookings</div><div class="setting-sub">Download as CSV spreadsheet</div></div><a class="btn-sm btn-sm-gold" href="/api/export/csv">Download CSV</a></div>
+        <div class="setting-row"><div><div class="setting-label">API Endpoint</div><div class="setting-sub">/api/bookings (admin protected)</div></div><a class="btn-sm btn-sm-outline" href="/api/bookings" target="_blank">Open</a></div>
+        <div class="setting-row"><div><div class="setting-label">Sign Out</div><div class="setting-sub">End current session</div></div><button class="btn-sm btn-sm-red" onclick="doLogout()">Sign Out</button></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- NOTES MODAL -->
+<div class="modal-backdrop" id="notesModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('notesModal')">✕</button>
+    <h3>BOOKING NOTES</h3>
+    <input type="hidden" id="notesBookingId"/>
+    <label>Admin Notes</label>
+    <textarea id="notesText" placeholder="Add notes about this booking…"></textarea>
+    <div style="margin-top:14px;display:flex;gap:10px">
+      <button class="btn-sm btn-sm-gold" onclick="saveNotes()">Save Notes</button>
+      <button class="btn-sm btn-sm-outline" onclick="closeModal('notesModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- BARBER MODAL -->
+<div class="modal-backdrop" id="barberModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('barberModal')">✕</button>
+    <h3 id="barberModalTitle">ADD BARBER</h3>
+    <input type="hidden" id="barberEditId"/>
+    <label>Full Name *</label><input type="text" id="barberName" placeholder="e.g. Juan dela Cruz"/>
+    <label>Specialty *</label><input type="text" id="barberSpecialty" placeholder="e.g. Fade & Taper Specialist"/>
+    <label>Experience</label><input type="text" id="barberExperience" placeholder="e.g. 3 years"/>
+    <label>Bio / Description</label>
+    <textarea id="barberBio" placeholder="Brief description of skills and style…"></textarea>
+    <div style="margin-top:14px;display:flex;gap:10px">
+      <button class="btn-sm btn-sm-gold" onclick="saveBarber()">Save Barber</button>
+      <button class="btn-sm btn-sm-outline" onclick="closeModal('barberModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let allBookings=[], allBarbers=[], analyticsData=null;
+let sortKey='date', sortDir=1;
+let chartInstances={};
+const AVATAR_COLORS=['#f5c518','#1565c0','#2e7d32','#6a1b9a','#c62828','#00695c'];
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+(async function init(){
+  const me=await fetch('/api/auth/me').then(r=>r.json());
+  if (!me.loggedIn){ window.location.href='/login.html'; return; }
+  document.getElementById('adminUserLabel').textContent=me.username;
+  document.getElementById('sidebarUser').textContent=me.username.toUpperCase();
+  document.getElementById('topbarDate').textContent=new Date().toLocaleDateString('en-PH',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
+  await Promise.all([loadBookings(),loadAnalytics(),loadBarbers()]);
+})();
+setInterval(refreshAll,60000);
+
+async function refreshAll(){ await Promise.all([loadBookings(),loadAnalytics(),loadBarbers()]); toast('Refreshed ✓'); }
+
+/* ══════════════════════════════════════════
+   SIDEBAR (MOBILE)
+══════════════════════════════════════════ */
+function openSidebar(){ document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+/* ══════════════════════════════════════════
+   DATA LOADING
+══════════════════════════════════════════ */
+async function loadBookings(){
+  try { const d=await fetch('/api/bookings').then(r=>r.json()); allBookings=d.bookings||[]; renderToday(); renderAllBookings(); renderRecentBookings(); }
+  catch(e){ toast('Failed to load bookings',true); }
+}
+async function loadAnalytics(){
+  try { analyticsData=await fetch('/api/analytics').then(r=>r.json()); renderStats(); renderCharts(); renderIncome(); renderIncomeBreakdown(); }
+  catch(e){ console.warn('Analytics failed',e); }
+}
+async function loadBarbers(){
+  try { const d=await fetch('/api/barbers/all').then(r=>r.json()); allBarbers=d.barbers||[]; renderBarbers(); }
+  catch(e){ toast('Failed to load barbers',true); }
+}
+
+/* ══════════════════════════════════════════
+   VIEW SWITCHING
+══════════════════════════════════════════ */
+const viewTitles={ dashboard:'Dashboard', bookings:'All Bookings', barbers:'Barbers', income:'Income Report', analytics:'Analytics', settings:'Settings' };
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('view-'+id)?.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{ if(n.textContent.trim().toLowerCase().startsWith(viewTitles[id]?.slice(0,4).toLowerCase()||id.slice(0,4))) n.classList.add('active'); });
+  document.getElementById('topbarTitle').textContent=viewTitles[id]||id;
+  closeSidebar();
+}
+
+/* ══════════════════════════════════════════
+   STATS
+══════════════════════════════════════════ */
+function renderStats(){
+  if (!analyticsData) return;
+  const s=analyticsData.stats, inc=analyticsData.income;
+  const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  set('s-total',s.total); set('s-today',s.today); set('s-week',s.week); set('s-upcoming',s.upcoming); set('s-cancelled',s.cancelled);
+  set('a-total',s.total); set('a-today',s.today); set('a-week',s.week); set('a-upcoming',s.upcoming); set('a-cancelled',s.cancelled);
+  const fmt=v=>`₱${Number(v).toLocaleString()}`;
+  ['today','week','month','year'].forEach(k=>{
+    set(`d-inc-${k}`,fmt(inc[k]));
+    set(`i-${k}`,fmt(inc[k]));
+  });
+}
+
+/* ══════════════════════════════════════════
+   INCOME BREAKDOWN TABLE
+══════════════════════════════════════════ */
+const SERVICE_PRICES_MAP={'Classic Modern Haircut':150,'Fade & Taper Cut':180,'Beard Trim & Shave':120,'Coloring & Highlights':350,'Scalp Treatment':200,'Kids & Senior Cut':100};
+function renderIncomeBreakdown(){
+  if (!analyticsData) return;
+  const tbody=document.getElementById('incomeBreakdownBody');
+  if (!tbody) return;
+  const services=analyticsData.services||[];
+  if (!services.length){ tbody.innerHTML='<tr class="empty-row"><td colspan="4">No completed bookings yet.</td></tr>'; return; }
+  tbody.innerHTML=services.map(s=>{
+    const name=s.service.replace(/ – ₱\d+/,'');
+    const price=SERVICE_PRICES_MAP[name]||0;
+    const total=price*s.count;
+    return `<tr>
+      <td>${escHtml(name)}</td>
+      <td>${s.count}</td>
+      <td>₱${price}</td>
+      <td><strong style="color:var(--gold)">₱${Number(total).toLocaleString()}</strong></td>
+    </tr>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════
+   INCOME CHARTS
+══════════════════════════════════════════ */
+function renderIncome(){
+  if (!analyticsData) return;
+  const monthly=analyticsData.monthlyIncome||[];
+  const services=analyticsData.services||[];
+
+  makeChart('chartMonthlyIncome','bar',
+    monthly.map(m=>m.month),
+    monthly.map(m=>m.total),
+    '#f5c518');
+
+  // Revenue by service (estimated)
+  const serviceRevenue=services.map(s=>{
+    const name=s.service.replace(/ – ₱\d+/,'');
+    return { name, total:(SERVICE_PRICES_MAP[name]||0)*s.count };
+  }).filter(s=>s.total>0);
+
+  makeChart('chartIncomeByService','doughnut',
+    serviceRevenue.map(s=>s.name),
+    serviceRevenue.map(s=>s.total));
+}
+
+/* ══════════════════════════════════════════
+   CHARTS
+══════════════════════════════════════════ */
+const CHART_DEFAULTS={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#9a9a8a',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#9a9a8a',font:{size:10}},beginAtZero:true}}};
+function makeChart(id,type,labels,values,color='#f5c518'){
+  const canvas=document.getElementById(id); if (!canvas) return;
+  if (chartInstances[id]) chartInstances[id].destroy();
+  const isDoughnut=type==='doughnut';
+  chartInstances[id]=new Chart(canvas,{type,data:{labels,datasets:[{data:values,backgroundColor:isDoughnut?['#f5c518','#5294e0','#4caf82','#e05252','#e0943a','#9a9a8a']:color,borderColor:isDoughnut?'transparent':color,borderWidth:isDoughnut?0:2,fill:type==='line',tension:0.35,pointRadius:3,pointBackgroundColor:color}]},options:isDoughnut?{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#9a9a8a',font:{size:10},boxWidth:12}}}}:{...CHART_DEFAULTS}});
+}
+function renderCharts(){
+  if (!analyticsData) return;
+  const {daily,services,hours,topBarbers}=analyticsData;
+  makeChart('chartDaily','bar',daily.map(d=>d.date.slice(5)),daily.map(d=>d.count));
+  makeChart('chartServices','doughnut',services.map(s=>s.service.replace(/ – ₱\d+/g,'')),services.map(s=>s.count));
+  makeChart('chartDaily2','line',daily.map(d=>d.date.slice(5)),daily.map(d=>d.count));
+  makeChart('chartHours','bar',hours.map(h=>h.time),hours.map(h=>h.count),'#5294e0');
+  makeChart('chartServices2','doughnut',services.map(s=>s.service.replace(/ – ₱\d+/g,'')),services.map(s=>s.count));
+  if (topBarbers?.length){
+    makeChart('chartBarbers','bar',topBarbers.map(b=>b.name),topBarbers.map(b=>b.count),'#f5c518');
+    document.getElementById('topBarbersList').innerHTML=topBarbers.map(b=>`<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05);padding:6px 0"><span style="color:var(--text-muted)">✂️ ${escHtml(b.name)}</span><strong style="color:var(--gold)">${b.count}</strong></div>`).join('');
+  }
+  const list=document.getElementById('servicesList');
+  if (list) list.innerHTML=services.map(s=>`<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05);padding:6px 0"><span style="color:var(--text-muted)">${s.service.replace(/ – ₱\d+/g,'')}</span><strong style="color:var(--gold)">${s.count}</strong></div>`).join('')||'<div style="color:var(--text-muted)">No data yet.</div>';
+  renderIncome();
+}
+
+/* ══════════════════════════════════════════
+   TODAY TABLE
+══════════════════════════════════════════ */
+function renderToday(){
+  const today=new Date().toISOString().split('T')[0];
+  const rows=allBookings.filter(b=>b.date===today);
+  const tbody=document.getElementById('todayBody');
+  if (!rows.length){ tbody.innerHTML=`<tr class="empty-row"><td colspan="6">No bookings today.</td></tr>`; return; }
+  tbody.innerHTML=rows.map(b=>`<tr>
+    <td class="td-id">${b.id}</td>
+    <td class="td-name">${escHtml(b.first_name)} ${escHtml(b.last_name)}</td>
+    <td><span class="tag tag-service">${escHtml(b.service.split('–')[0].trim())}</span></td>
+    <td><span class="tag tag-time">${b.time}</span></td>
+    <td>${statusBadge(b.status)}</td>
+    <td><div class="actions-cell">${statusSelect(b.id,b.status)}</div></td>
+  </tr>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   RECENT BOOKINGS
+══════════════════════════════════════════ */
+function renderRecentBookings(){
+  const el=document.getElementById('recentBookingsList');
+  if (!el) return;
+  const recent=analyticsData?.recentBookings||allBookings.slice(-5).reverse();
+  if (!recent.length){ el.innerHTML='<div style="color:var(--text-muted);font-size:.85rem;padding:16px 0">No bookings yet.</div>'; return; }
+  el.innerHTML=recent.map(b=>`
+    <div class="recent-booking-row">
+      <div class="recent-booking-name">${escHtml(b.first_name)} ${escHtml(b.last_name)}</div>
+      <div class="recent-booking-service">${escHtml(b.service.replace(/ – ₱\d+/,''))}</div>
+      <div>${statusBadge(b.status)}</div>
+      <div class="recent-booking-date">${fmtDate(b.date)} ${b.time}</div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   ALL BOOKINGS TABLE
+══════════════════════════════════════════ */
+function renderAllBookings(){
+  const search=document.getElementById('searchInput')?.value.toLowerCase()||'';
+  const date=document.getElementById('dateFilter')?.value||'';
+  const status=document.getElementById('statusFilter')?.value||'';
+  let rows=[...allBookings];
+  if (search) rows=rows.filter(b=>(b.first_name+' '+b.last_name).toLowerCase().includes(search)||b.phone.includes(search));
+  if (date) rows=rows.filter(b=>b.date===date);
+  if (status) rows=rows.filter(b=>b.status===status);
+  rows.sort((a,b)=>{ let va=a[sortKey],vb=b[sortKey]; if(sortKey==='id'){va=+va;vb=+vb;} return(va<vb?-1:va>vb?1:0)*sortDir; });
+  const tbody=document.getElementById('allBookingsBody');
+  if (!rows.length){ tbody.innerHTML=`<tr class="empty-row"><td colspan="10">No bookings found.</td></tr>`; return; }
+  tbody.innerHTML=rows.map(b=>`<tr id="tr-${b.id}">
+    <td class="td-id">${b.id}</td>
+    <td class="td-name">${escHtml(b.first_name)} ${escHtml(b.last_name)}</td>
+    <td style="font-size:.78rem">${b.phone}</td>
+    <td><span class="tag tag-service">${escHtml(b.service.split('–')[0].trim())}</span></td>
+    <td style="font-size:.75rem;color:var(--text-muted)">${b.barber_name?escHtml(b.barber_name):'<em>Any</em>'}</td>
+    <td>${fmtDate(b.date)}</td>
+    <td><span class="tag tag-time">${b.time}</span></td>
+    <td style="color:var(--gold);font-size:.8rem">${b.price?'₱'+b.price:''}</td>
+    <td>${statusBadge(b.status)}</td>
+    <td><div class="actions-cell">
+      ${statusSelect(b.id,b.status)}
+      <button class="btn-sm btn-sm-outline" style="font-size:.62rem;padding:5px 8px" onclick="openNotes(${b.id},'${escAttr(b.notes||'')}')">📝</button>
+      <button class="btn-sm btn-sm-red" style="font-size:.62rem;padding:5px 8px" onclick="deleteBooking(${b.id})">🗑</button>
+    </div></td>
+  </tr>`).join('');
+}
+function applyFilters(){ renderAllBookings(); }
+function clearFilters(){ document.getElementById('searchInput').value=''; document.getElementById('dateFilter').value=''; document.getElementById('statusFilter').value=''; renderAllBookings(); }
+function sortBy(key){ if(sortKey===key)sortDir*=-1; else{sortKey=key;sortDir=1;} renderAllBookings(); }
+
+/* ══════════════════════════════════════════
+   BARBERS
+══════════════════════════════════════════ */
+function renderBarbers(){
+  const tbody=document.getElementById('barbersBody'); if (!tbody) return;
+  const countEl=document.getElementById('barberCount');
+  if (countEl) countEl.textContent=`${allBarbers.filter(b=>b.active).length} active / ${allBarbers.length} total`;
+  if (!allBarbers.length){ tbody.innerHTML=`<tr class="empty-row"><td colspan="7">No barbers yet.</td></tr>`; return; }
+  tbody.innerHTML=allBarbers.map((b,i)=>{
+    const initials=b.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    const color=AVATAR_COLORS[i%AVATAR_COLORS.length];
+    return `<tr style="${!b.active?'opacity:.45':''}">
+      <td class="td-id">${b.id}</td>
+      <td class="td-name"><div style="display:flex;align-items:center;gap:10px">
+        <div style="width:30px;height:30px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#fff;font-family:'Oswald',sans-serif;flex-shrink:0">${initials}</div>
+        <strong>${escHtml(b.name)}</strong></div></td>
+      <td><span class="tag tag-service" style="font-size:.68rem">${escHtml(b.specialty)}</span></td>
+      <td style="font-size:.78rem;color:var(--text-muted)">${escHtml(b.experience)}</td>
+      <td style="font-size:.75rem;color:var(--text-muted);max-width:200px;white-space:normal;line-height:1.4">${escHtml(b.bio||'—')}</td>
+      <td>${b.active?`<span class="status-badge status-active">Active</span>`:`<span class="status-badge status-inactive">Inactive</span>`}</td>
+      <td><div class="actions-cell">
+        <button class="btn-sm btn-sm-gold" style="font-size:.62rem;padding:5px 8px" onclick="openBarberModal(${b.id})">✏️ Edit</button>
+        ${b.active
+          ?`<button class="btn-sm btn-sm-red" style="font-size:.62rem;padding:5px 8px" onclick="deactivateBarber(${b.id},'${escAttr(b.name)}')">Deactivate</button>`
+          :`<button class="btn-sm btn-sm-outline" style="font-size:.62rem;padding:5px 8px" onclick="reactivateBarber(${b.id},'${escAttr(b.name)}')">Reactivate</button>`}
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+function openBarberModal(barberId){
+  document.getElementById('barberModal').classList.add('open');
+  if (barberId){
+    const b=allBarbers.find(x=>x.id===barberId); if (!b) return;
+    document.getElementById('barberModalTitle').textContent='EDIT BARBER';
+    document.getElementById('barberEditId').value=b.id;
+    document.getElementById('barberName').value=b.name;
+    document.getElementById('barberSpecialty').value=b.specialty;
+    document.getElementById('barberExperience').value=b.experience;
+    document.getElementById('barberBio').value=b.bio||'';
+  } else {
+    document.getElementById('barberModalTitle').textContent='ADD BARBER';
+    ['barberEditId','barberName','barberSpecialty','barberExperience','barberBio'].forEach(id=>document.getElementById(id).value='');
+  }
+}
+async function saveBarber(){
+  const id=document.getElementById('barberEditId').value;
+  const name=document.getElementById('barberName').value.trim();
+  const specialty=document.getElementById('barberSpecialty').value.trim();
+  const experience=document.getElementById('barberExperience').value.trim();
+  const bio=document.getElementById('barberBio').value.trim();
+  if (!name){ toast('Name is required.',true); return; }
+  try {
+    let res;
+    if (id){
+      const cur=allBarbers.find(b=>b.id===+id);
+      res=await fetch(`/api/barbers/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,specialty:specialty||'All-around',experience:experience||'1 year',bio,active:cur?cur.active:1})}).then(r=>r.json());
+    } else {
+      res=await fetch('/api/barbers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,specialty:specialty||'All-around',experience:experience||'1 year',bio})}).then(r=>r.json());
+    }
+    if (res.success){ closeModal('barberModal'); await loadBarbers(); toast(id?`${name} updated ✓`:`${name} added ✓`); }
+    else toast(res.message||'Error.',true);
+  } catch(e){ toast('Server error.',true); }
+}
+async function deactivateBarber(id,name){
+  if (!confirm(`Deactivate ${name}?`)) return;
+  const res=await fetch(`/api/barbers/${id}`,{method:'DELETE'}).then(r=>r.json());
+  if (res.success){ await loadBarbers(); toast(`${name} deactivated.`); } else toast(res.message,true);
+}
+async function reactivateBarber(id,name){
+  const b=allBarbers.find(x=>x.id===id); if (!b) return;
+  const res=await fetch(`/api/barbers/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:b.name,specialty:b.specialty,experience:b.experience,bio:b.bio,active:1})}).then(r=>r.json());
+  if (res.success){ await loadBarbers(); toast(`${name} reactivated ✓`); } else toast(res.message,true);
+}
+
+/* ══════════════════════════════════════════
+   BOOKING ACTIONS
+══════════════════════════════════════════ */
+async function updateStatus(id,status){
+  try {
+    const res=await fetch(`/api/bookings/${id}/status`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})}).then(r=>r.json());
+    if (res.success){ const b=allBookings.find(b=>b.id===id); if(b) b.status=status; toast(`Booking #${id} → ${status}`); renderToday(); renderAllBookings(); loadAnalytics(); }
+    else toast(res.message,true);
+  } catch(e){ toast('Update failed',true); }
+}
+async function deleteBooking(id){
+  if (!confirm(`Delete booking #${id}? This cannot be undone.`)) return;
+  const data=await fetch(`/api/bookings/${id}`,{method:'DELETE'}).then(r=>r.json());
+  if (data.success){ allBookings=allBookings.filter(b=>b.id!==id); renderToday(); renderAllBookings(); loadAnalytics(); toast(`Booking #${id} deleted.`); }
+  else toast(data.message,true);
+}
+function openNotes(id,notes){ document.getElementById('notesBookingId').value=id; document.getElementById('notesText').value=notes; document.getElementById('notesModal').classList.add('open'); }
+async function saveNotes(){
+  const id=document.getElementById('notesBookingId').value;
+  const notes=document.getElementById('notesText').value;
+  const data=await fetch(`/api/bookings/${id}/notes`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({notes})}).then(r=>r.json());
+  if (data.success){ const b=allBookings.find(b=>b.id===+id); if(b) b.notes=notes; closeModal('notesModal'); toast('Notes saved.'); }
+  else toast(data.message,true);
+}
+
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
+function statusBadge(s){ return `<span class="status-badge status-${s||'confirmed'}">${s||'confirmed'}</span>`; }
+function statusSelect(id,current){
+  const opts=['confirmed','completed','cancelled','no-show'];
+  return `<select class="date-input" style="padding:4px 6px;font-size:.72rem" onchange="updateStatus(${id},this.value)">
+    ${opts.map(o=>`<option value="${o}"${o===current?' selected':''}>${o}</option>`).join('')}</select>`;
+}
+function fmtDate(d){ if(!d) return '—'; return new Date(d+'T00:00:00').toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}); }
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escAttr(s){ return String(s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+async function changePassword(){
+  const cur=document.getElementById('curPw').value, nw=document.getElementById('newPw').value, conf=document.getElementById('confPw').value;
+  if (nw!==conf){ toast('Passwords do not match.',true); return; }
+  if (nw.length<8){ toast('Min 8 characters.',true); return; }
+  const data=await fetch('/api/auth/change-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({current_password:cur,new_password:nw})}).then(r=>r.json());
+  if (data.success){ toast('Password changed!'); document.getElementById('curPw').value=''; document.getElementById('newPw').value=''; document.getElementById('confPw').value=''; }
+  else toast(data.message,true);
+}
+async function doLogout(){ await fetch('/api/auth/logout',{method:'POST'}); window.location.href='/login.html'; }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+let toastTimer;
+function toast(msg,isErr=false){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='show'+(isErr?' error':'');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.className='',3000);
+}
+</script>
+</body>
+</html>
